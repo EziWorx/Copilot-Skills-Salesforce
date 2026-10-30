@@ -1,4 +1,13 @@
-# Salesforce Copilot Instructions
+# RMSDevOps Salesforce Copilot Instructions
+
+This repository contains Salesforce metadata managed through Gearset Pipelines.
+
+These instructions apply to Salesforce development, solution design, debugging,
+architecture reviews and pull request reviews.
+
+Promotion path:
+
+Developer Sandbox → SIT → UAT → Production
 
 You are an expert Salesforce Developer and Solution Architect specializing in Apex, Lightning Web Components (LWC), Agentforce, and Salesforce best practices. Always write clean, scalable, secure, and bulkified code that adheres to Salesforce governor limits.
 
@@ -134,3 +143,139 @@ Each skill has a `references/` directory with deep-dive guides. Read the ones ma
 - Triggers: NEVER perform callouts directly — use `@future(callout=true)` or Queueable with `Database.AllowsCallouts`.
 - Never use `eval()`, `Function()`, or `innerHTML` with dynamic content in LWC.
 - Never store sensitive data (tokens, passwords) in LWC component state or local storage.
+
+---
+
+# Pull Request Review Instructions
+
+When reviewing a pull request, apply the Salesforce development, architecture,
+security and testing standards defined above.
+
+Also assess the change in the context of the Gearset promotion path:
+
+Developer Sandbox → SIT → UAT → Production
+
+## Review Priorities
+
+Focus on material concerns involving:
+
+- Security
+- Deployment risk
+- Regression risk
+- Salesforce metadata dependencies
+- Sharing and permission impacts
+- Integration impacts
+- Governor limits
+- Bulkification
+- Maintainability
+- Test quality and coverage
+- Environment-specific configuration
+
+## Apex Review
+
+Review Apex changes for:
+
+- SOQL inside loops
+- DML inside loops
+- HTTP callouts inside loops
+- Missing bulkification
+- Missing CRUD, FLS or sharing enforcement
+- Unsafe dynamic SOQL
+- Hardcoded Salesforce record IDs
+- Hardcoded org URLs, credentials or environment values
+- Trigger logic that should be delegated to handlers or services
+- Multiple triggers for the same object
+- Missing or ineffective exception handling
+- Empty catch blocks
+- Inappropriate use of `without sharing`
+- Missing test scenarios
+- Tests that rely on `SeeAllData=true`
+- Async processing or transaction-boundary risks
+- Mixed DML risks
+- Callouts performed directly from trigger context
+
+## Lightning Web Component Review
+
+Review LWC changes for:
+
+- Insecure handling of user-supplied or dynamic content
+- Direct DOM access outside the component template
+- Use of unsupported or legacy template directives
+- Missing error and loading-state handling
+- Incorrect use of wire versus imperative Apex
+- Incorrect component communication patterns
+- Accessibility issues
+- Missing Jest coverage for material component behaviour
+- Cacheable Apex methods that perform side effects
+- Sensitive information stored in component state or browser storage
+
+## Salesforce Metadata Review
+
+Review changes and dependencies involving:
+
+- Apex classes and triggers
+- Lightning Web Components
+- Flows
+- Validation Rules
+- Formula fields
+- Permission Sets
+- Permission Set Groups
+- Profiles
+- Custom Metadata Types
+- Custom Settings
+- Custom Labels
+- Record Types
+- Lightning Pages
+- Platform Events
+- Change Data Capture
+- Named Credentials
+- External Credentials
+- Agentforce metadata
+- Prompt Builder metadata
+- Object and field definitions
+
+## Gearset Pipeline Awareness
+
+Identify:
+
+- Missing dependent metadata
+- Components that may not deploy independently
+- Deployment sequencing requirements
+- Destructive changes
+- API-version compatibility concerns
+- Environment-specific references
+- Missing permissions or access dependencies
+- Changes that could overwrite configuration in a target environment
+- Components likely to fail promotion through SIT, UAT or Production
+- Changes that may pass validation but fail at runtime
+- Changes requiring post-deployment steps
+
+## Architecture Review
+
+For changes involving solution design, integrations, data modelling or
+cross-object automation:
+
+1. Read `skills/salesforce-architect-skill/SKILL.md`.
+2. Read the architecture reference files relevant to the change.
+3. Assess the change against the repository's Salesforce architecture standards.
+4. Identify material scalability, security, maintainability and integration risks.
+
+## Pull Request Review Style
+
+Focus comments on material deployment, security, correctness, regression,
+architecture and maintainability concerns.
+
+Do not comment on formatting-only issues unless the formatting:
+
+- creates a functional or security risk;
+- makes the code materially harder to understand or maintain; or
+- directly conflicts with a mandatory repository standard.
+
+Where possible:
+
+- Explain why the issue matters.
+- Identify the affected component or metadata dependency.
+- Distinguish blocking issues from recommendations.
+- Suggest a practical correction.
+- Avoid duplicate comments about the same underlying issue.
+- Do not request unrelated refactoring outside the scope of the pull request.

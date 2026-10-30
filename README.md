@@ -2,7 +2,7 @@
 
 **Custom GitHub Copilot Agent Skills & Coding Rulesets for Salesforce Development & Architecture**
 
-> Turn GitHub Copilot into a Salesforce-aware coding assistant that follows platform best practices, governor limits, security rules, and the Well-Architected Framework — out of the box.
+> Turn GitHub Copilot into a Salesforce-aware coding assistant that follows platform best practices, governor limits, security rules, and the Well-Architected Framework — Copilot-instructions.md has been modified to work with CoS Gearset Pipeline and Github Code Reviews.
 
 ---
 
@@ -85,7 +85,7 @@ Copy the `.github/` folder into the root of any Salesforce DX project:
 
 ```bash
 # Clone this repo
-git clone https://github.com/SalesforceDiariesBySanket/Copilot-Skills-Salesforce.git
+git clone https://github.com/EziWorx/Copilot-Skills-Salesforce/tree/main/.github
 
 # Copy the .github folder to your project
 cp -r Copilot-Skills-Salesforce/.github /path/to/your-salesforce-project/
